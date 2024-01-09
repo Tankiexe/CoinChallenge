@@ -1,13 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class EndInterface : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public TextMeshProUGUI title;
+    public TextMeshProUGUI score;
     void Start()
     {
-        
+        UpdateTitle();
+        UpdateScore();
     }
 
     // Update is called once per frame
@@ -15,4 +18,28 @@ public class EndInterface : MonoBehaviour
     {
         
     }
+
+    void UpdateTitle()
+    {
+        if (PersistentData.instance.playerBoarded)
+        {
+            title.text = "Victoire";
+        }
+        else
+        {
+            title.text = "Défaite";
+        }
+    }
+
+    void UpdateScore()
+    {
+        score.text = "Score : " + PersistentData.instance.score;
+    }
+
+    public void OnRestartClick()
+    {
+
+    }
+
+
 }

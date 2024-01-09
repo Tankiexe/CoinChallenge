@@ -8,13 +8,13 @@ public class MainMenu : MonoBehaviour
 
     public void OnStartClick()
     {
-        AudioManger.instance.ToPlaySound(AudioManger.instance.buttonClick);
+        //AudioManger.instance.ToPlaySound(AudioManger.instance.buttonClick);
         SceneManager.LoadScene("Level");
     }
 
     public void OnQuitClick()
     {
-        AudioManger.instance.ToPlaySound(AudioManger.instance.buttonClick);
+        //AudioManger.instance.ToPlaySound(AudioManger.instance.buttonClick);
         Application.Quit();
     }
 }

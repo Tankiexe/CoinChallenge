@@ -38,6 +38,7 @@ public class playerController : MonoBehaviour
     [SerializeField]
     Camera cam;
 
+    public int playerMaxLife = 10;
     public int playerLife = 10;
     public bool canTakeDamege = true;
     [SerializeField]
@@ -58,7 +59,7 @@ public class playerController : MonoBehaviour
     {
         
         inputDir = new Vector3(Input.GetAxis("Horizontal"),0,Input.GetAxis("Vertical"));
-        if (Input.GetAxis("Jump") > 0)
+        if (Input.GetAxis("Jump") > 0 && ISGROUNDED)
         {
             jumpKeyPressed = true;
         }
@@ -138,15 +139,16 @@ public class playerController : MonoBehaviour
     {
         animator.SetFloat("Forward", dir.z);
         animator.SetFloat("SideMove", dir.x);
+        animator.SetBool("Grounded", ISGROUNDED);
     }
 
     void TryToJump()
     {
         jumpKeyPressed = false;
         if (!ISGROUNDED) return;
-        animator.SetFloat("Jumping", 1);
-        rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         
+        rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        animator.SetTrigger("Jump");
     }
 
     bool IsGrounded()

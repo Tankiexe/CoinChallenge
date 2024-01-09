@@ -9,6 +9,11 @@ public class AudioManger : MonoBehaviour
 {
     public static AudioManger instance;
     public AudioSource buttonClick;
+    public AudioSource hit;
+    public AudioSource bonk;
+    public AudioSource gling;
+    public AudioSource music;
+    
 
     public Slider sounds;
     public AudioMixer audioMixer;
@@ -17,6 +22,7 @@ public class AudioManger : MonoBehaviour
     void Start()
     {
         instance = this;
+        
     }
 
     public void OnSfxValueChange(string mixerGroup)
@@ -38,4 +44,8 @@ public class AudioManger : MonoBehaviour
     {
         source.Play();
     }
+
+    
+
+
 }

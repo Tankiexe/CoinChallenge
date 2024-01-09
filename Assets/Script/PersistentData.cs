@@ -4,12 +4,10 @@ using UnityEngine;
 
 public class PersistentData : MonoBehaviour
 {
-    [SerializeField]
-    int score;
-    [SerializeField]
-    float time;
-    [SerializeField]
-    bool win;
+    
+    public int score;
+    public float time;
+    public bool playerBoarded;
 
     public static PersistentData instance;
 
@@ -33,6 +31,7 @@ public class PersistentData : MonoBehaviour
     {
         score = GameManager.SCORE;
         time = GameManager.instance.elapsedTime;
+        playerBoarded = GameManager.instance.playerOnBoat;
         //to do verifier si la partie est gagnée ou non
     }
 
