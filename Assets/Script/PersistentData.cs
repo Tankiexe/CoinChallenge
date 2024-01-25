@@ -1,13 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PersistentData : MonoBehaviour
 {
     
-    public int score;
+    public int score, kills, coinsCollected;
     public float time;
     public bool playerBoarded;
+    
+
 
     public static PersistentData instance;
 
@@ -32,7 +35,8 @@ public class PersistentData : MonoBehaviour
         score = GameManager.SCORE;
         time = GameManager.instance.elapsedTime;
         playerBoarded = GameManager.instance.playerOnBoat;
-        //to do verifier si la partie est gagnée ou non
+        kills = GameManager.instance.killCount;
+        coinsCollected = GameManager.instance.coinsCollected;
     }
 
 

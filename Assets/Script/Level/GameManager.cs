@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public int timeToComplete = 120;
+    public int timeToComplete = 113;
     public float currentTime = 0;
     public float elapsedTime
     {
@@ -24,6 +24,9 @@ public class GameManager : MonoBehaviour
             ScoreUI.UpdateScore();
         }
     }
+    public int killCount, coinsCollected;
+
+
     public bool respawnNeeded = false;
     public GameObject player;
     public Transform respawnPoint;
@@ -50,7 +53,9 @@ public class GameManager : MonoBehaviour
         Respawning();
     }
 
-    
+    /// <summary>
+    /// Met a jour le timer et déclanche la fin de partie s'il ateint zero.
+    /// </summary>
     public void UpdateTime()
     {
         currentTime -= Time.deltaTime;

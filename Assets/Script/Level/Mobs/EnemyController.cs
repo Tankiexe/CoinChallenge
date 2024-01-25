@@ -42,13 +42,7 @@ public class EnemyController : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
-        /*if (other.gameObject.CompareTag("playerFeet"))
-        {
-            TankingDamage();
-        }*/
-        
 
-        
         if (!other.gameObject.CompareTag("Player")) return;
         playerController player = other.GetComponent<playerController>();
         chassing = true;
@@ -104,8 +98,9 @@ public class EnemyController : MonoBehaviour
 
     private void TankingDamage()
     {
-        AudioLevelManeger.Instance.ToPlaySound(AudioLevelManeger.Instance.bonk);
+        AudioManager.instance.ToPlaySound(AudioManager.instance.bonk);
         GameManager.SCORE += value; 
+        GameManager.instance.killCount++;
         Destroy(gameObject);
         
     }
@@ -122,7 +117,7 @@ public class EnemyController : MonoBehaviour
         playerPos.y = 0;
         deadZonePos.y = 0;
         float dist = Vector3.Distance(deadZonePos, playerPos);
-        if (dist > 0.3f) return false;
+        if (dist > 0.5f) return false;
         return true;
 
     }

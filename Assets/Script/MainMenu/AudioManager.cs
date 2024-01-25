@@ -5,9 +5,9 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
 
-public class AudioManger : MonoBehaviour
+public class AudioManager : MonoBehaviour
 {
-    public static AudioManger instance;
+    public static AudioManager instance;
     public AudioSource buttonClick;
     public AudioSource hit;
     public AudioSource bonk;
@@ -18,11 +18,10 @@ public class AudioManger : MonoBehaviour
     public Slider sounds;
     public AudioMixer audioMixer;
     public Slider musicVolume;
-    // Start is called before the first frame update
+    
     void Start()
     {
         instance = this;
-        
     }
 
     public void OnSfxValueChange(string mixerGroup)
@@ -40,12 +39,9 @@ public class AudioManger : MonoBehaviour
         audioMixer.SetFloat(mixerGroup, db);
 
     }
+
     public void ToPlaySound(AudioSource source)
     {
         source.Play();
     }
-
-    
-
-
 }

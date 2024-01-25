@@ -14,26 +14,38 @@ public class LightTransition : MonoBehaviour
     Color nightColor , sunColor;
     [SerializeField]
     int nightTemp , sunTemp ;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+    [SerializeField]
+    List<GameObject> lights;
+    
+    /// <summary>
+    /// Met a jour toute les lights non baked.
+    /// </summary>
     void updateLight()
     {
         float distFromA = Vector3.Distance(playerController.instance.transform.position, transforms[0].position);
         float distFromB = Vector3.Distance(playerController.instance.transform.position, transforms[1].position);
         StartCoroutine(SetSun(distFromA > distFromB));
-
+        StartLights(distFromA > distFromB);
     }
 
+    void StartLights(bool day)
+    {
+        if (day)
+        {
+            foreach (GameObject light in lights)
+            {
+                light.SetActive(true);
+            }
+        }
+        else
+        {
+            foreach(GameObject light in lights)
+            {
+                light.SetActive(false);
+            }
+        }
+    }
 
     IEnumerator SetSun(bool day)
     {
@@ -52,8 +64,8 @@ public class LightTransition : MonoBehaviour
             sun.color = Color.Lerp(startColor, targetColor, t);
             sun.colorTemperature = Mathf.Lerp(startTemp, targetTemp, t);
             sun.transform.rotation = Quaternion.Euler(Mathf.Lerp(startRotation, targetRotation, t), 0, 0);
-            //sun.intensity = Mathf.Lerp(startRotation, targetRotation, t);
-            t += Time.deltaTime / 10;
+            
+            t += Time.deltaTime / 6;
 
             yield return null;
         }
@@ -64,5 +76,4 @@ public class LightTransition : MonoBehaviour
         if (!other.gameObject.CompareTag("Player")) return;
         updateLight();
     }
-
 }

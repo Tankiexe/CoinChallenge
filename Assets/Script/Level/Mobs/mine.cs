@@ -2,25 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class mine : MonoBehaviour
+public class Mine : MonoBehaviour
 {
     public int damage;
-    // Start is called before the first frame update
+
+    public GameObject minesParicules;
+    
     void Start()
     {
         Destroy(gameObject, 20);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     private void OnTriggerEnter(Collider other)
     {
         if (!other.gameObject.CompareTag("Player")) return;
+        Instantiate(minesParicules);
         playerController.instance.TakingDamage(damage);
+        Destroy(gameObject);
     }
-
 }

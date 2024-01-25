@@ -120,8 +120,9 @@ public class EnemyController2 : MonoBehaviour
 
     private void TankingDamage()
     {
-        AudioLevelManeger.Instance.ToPlaySound(AudioLevelManeger.Instance.bonk);
+        AudioManager.instance.ToPlaySound(AudioManager.instance.bonk);
         GameManager.SCORE += value;
+        GameManager.instance.killCount++;
         Destroy(gameObject);
 
     }
@@ -138,7 +139,7 @@ public class EnemyController2 : MonoBehaviour
         playerPos.y = 0;
         deadZonePos.y = 0;
         float dist = Vector3.Distance(deadZonePos, playerPos);
-        if (dist > 0.3f) return false;
+        if (dist > 0.5f) return false;
         return true;
 
     }

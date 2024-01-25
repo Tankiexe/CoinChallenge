@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class playerController : MonoBehaviour
 {
     public static playerController instance;
     [SerializeField]
     Rigidbody rb;
+    [SerializeField]
     Animator animator;
 
     Vector3 inputDir;
-    Vector3 forward = Vector3.zero;
     bool jumpKeyPressed = false;
     [SerializeField]
     float jumpForce = 10;
@@ -25,8 +26,6 @@ public class playerController : MonoBehaviour
         set
         {
             isGrounded = value;
-            if (isGrounded) animator.SetFloat("Jumping", 0);
-            if (!isGrounded) animator.SetFloat("Jumping", 1);
         }
     }
 
@@ -34,26 +33,26 @@ public class playerController : MonoBehaviour
     float playerSpeed = 5;
     [SerializeField]
     float strafeSpeed;
-    float rotationSpeed;
+    
     [SerializeField]
     Camera cam;
 
     public int playerMaxLife = 10;
     public int playerLife = 10;
-    public bool canTakeDamege = true;
-    [SerializeField]
+    public bool canTakeDamage
+    {
+        get 
+        {
+            return Time.timeSinceLevelLoad - lastDamageTime > 1;
+        }
+    }
+    float lastDamageTime;
     public bool isDead = false;
 
     private void Awake()
     {
         instance = this;
     }
-
-    void Start()
-    {
-        animator = GetComponent<Animator>();
-    }
-
 
     void Update()
     {
@@ -151,52 +150,43 @@ public class playerController : MonoBehaviour
         animator.SetTrigger("Jump");
     }
 
-    bool IsGrounded()
+    void IsGrounded()
     {
-        
         RaycastHit hit;
-        /*if (ISGROUNDED == false)
-        {
-            ISGROUNDED = Physics.Raycast(transform.position, Vector3.down, out hit, 0.2f, groundMask);
-            if (ISGROUNDED == true)
-            {
-                animator.SetFloat("Jumping", 1f);
-            }
-        }*/
-        return ISGROUNDED = Physics.Raycast(transform.position, Vector3.down, out hit, 0.2f, groundMask);
-
-        
+        ISGROUNDED = Physics.Raycast(transform.position, Vector3.down, out hit, 0.2f, groundMask);
     }
 
+    /// <summary>
+    /// verifie si le player est mort si oui demande un respawn.
+    /// </summary>
     private void IsHeDead()
     {
-        if (transform.position.y < -20) isDead = true;
         if (playerLife <= 0) isDead = true;
         if (isDead == true)
         {
-            GameManager.instance.respawnNeeded = true;
-            
-
+            PersistentData.instance.GetData();
+            SceneManager.LoadSceneAsync("End");
         }
     }
 
+    /// <summary>
+    /// Reduit la vie du player si il peux prendre des degats et met a jour l'IHM en fonction.
+    /// </summary>
+    /// <param name="damage"></param>
     public void TakingDamage(int damage)
     {
+        if (!canTakeDamage) return;
         playerLife -= damage;
-        AudioLevelManeger.Instance.ToPlaySound(AudioLevelManeger.Instance.hit);
+        AudioManager.instance.ToPlaySound(AudioManager.instance.hit);
         IHM.Instance.UpdateLifeBar();
-        /*canTakeDamege = false;
-        float index = 0;
-        while (index < 2 )
-        {
-            index += Time.deltaTime;
-        }
-        canTakeDamege = true;*/
+        IHM.Instance.damageAlpha = 0.5f;
+        lastDamageTime = Time.timeSinceLevelLoad;
+        
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!canTakeDamege) return;
+        if (!canTakeDamage) return;
         if (other.gameObject.CompareTag("anemy")) TakingDamage(1);
     }
 }

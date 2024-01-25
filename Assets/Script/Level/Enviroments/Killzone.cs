@@ -7,21 +7,11 @@ public class Cube : MonoBehaviour
 {
     [SerializeField]
     Transform respawnPoint;
-    void Start()
-    {
-        
-    }
-
     
-    void Update()
-    {
-        
-    }
 
     private void OnTriggerEnter(Collider other)
     {
         OnPlayerEnter(other);
-        
     }
 
     void OnPlayerEnter(Collider other)
@@ -29,7 +19,6 @@ public class Cube : MonoBehaviour
         if (!other.gameObject.CompareTag("Player")) return;
         PersistentData.instance.GetData();
         SceneManager.LoadSceneAsync("End");
-        
     }
 
 }
